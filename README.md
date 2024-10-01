@@ -201,3 +201,56 @@ If you find our code or paper useful, please cite
 Contact [Erik Sandström](mailto:erik.sandstrm@gmail.com) for questions, comments and reporting bugs.
 
 
+## How to Fork this Repository
+
+Follow the steps below to create a fork of this repository on your GitHub account and clone it to your local machine.
+
+### Step 1: Fork the Repository on GitHub
+
+1. Navigate to the original repository: [Loopy-SLAM](https://github.com/eriksandstroem/Loopy-SLAM).
+1. In the upper right corner of the page, click the **Fork** button.
+1. Select your GitHub account to create a copy of the repository in your account.
+
+### Step 2: Clone Your Fork Locally
+
+1. After forking, you will be redirected to your new repository (under your GitHub username). Copy the SSH URL (or HTTPS URL) from the repository page.
+   - SSH URL: `git@github.com:<your-username>/Loopy-SLAM.git`
+   - HTTPS URL: `https://github.com/<your-username>/Loopy-SLAM.git`
+   
+1. Open your terminal (or command prompt) and run the following command to clone your forked repository to your local machine:
+
+   ```bash
+   git clone git@github.com:<your-username>/Loopy-SLAM.git
+
+### Step 3: Set Up Remote for the Original Repository
+
+1. Change into the directory of the cloned repository:
+    ```bash
+    cd Loopy-SLAM
+    ```
+1. Add the original repository as a remote:
+    ```bash
+    git remote add upstream git@github.com:eriksandstroem/Loopy-SLAM.git
+    ```
+1. Verify that the remotes are set correctly:
+1. Add the original repository as a remote:
+    ```bash
+    git remote -v
+    ```
+    You should see two remotes listed: origin (your fork) and upstream (the original repository).
+
+### Step 4: Keeping Your Fork Up to Date
+To keep your fork synchronized with the original repository:
+1. Fetch updates from upstream:
+    ```bash
+    git fetch upstream
+    ```
+1. Merge changes into your local main branch:
+    ```bash
+    git checkout main  # or master, depending on the default branch name
+    git merge upstream/main
+    ```
+1. Push changes to your fork:
+    ```bash
+    git push origin main
+    ```
