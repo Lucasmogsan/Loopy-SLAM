@@ -1,7 +1,11 @@
 FROM nvidia/cuda:11.8.0-devel-ubuntu20.04
 
+# Start shell in bash mode
+SHELL ["/bin/bash", "-c"]
+# Add Miniconda to PATH
 ENV PATH="/root/miniconda3/bin:${PATH}"
-ARG PATH="/root/miniconda3/bin:${PATH}"
+# Set environment variable to avoid interactive prompts
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Install wget to fetch Miniconda
 RUN apt-get update && \
@@ -28,16 +32,13 @@ RUN arch=$(uname -m) && \
 COPY env.yaml .
 
 # Set up conda environment
-RUN conda env create -f env.yaml
+RUN conda update -y conda
+RUN conda init && \
+    conda env create -f env.yaml
 
 # Initialize bash with conda and add the environment activation to bashrc
-# RUN /root/miniconda3/bin/conda init bash && \
-#     echo "source /root/miniconda3/etc/profile.d/conda.sh && conda activate loopy-slam" >> /root/.bashrc
-
-# HERE BELOW:
-
-# Set environment variable to avoid interactive prompts
-ENV DEBIAN_FRONTEND=noninteractive
+RUN /root/miniconda3/bin/conda init bash && \
+    echo "source /root/miniconda3/etc/profile.d/conda.sh && conda activate loopy-slam" >> /root/.bashrc
 
 # Install system dependencies
 RUN apt-get update && \
@@ -58,23 +59,12 @@ WORKDIR /home/PyDBoW3
 RUN chmod +x dbow.sh && \
     ./dbow.sh
 
-# Activate conda environment
-RUN /root/miniconda3/bin/conda init bash && \
-    echo "source /root/miniconda3/etc/profile.d/conda.sh && conda activate loopy-slam" >> /root/.bashrc
-
-# RUN cd /home/PyDBoW3 && \
-#     pip install .
+RUN source activate loopy-slam && \
+    cd /home/PyDBoW3 && \
+    pip install .
 
 # Set up working directory
 WORKDIR /home/Loopy-SLAM
-
-
-# Initialize bash with conda and add the environment activation to bashrc
-# RUN /root/miniconda3/bin/conda init bash && \
-#     echo "source /root/miniconda3/etc/profile.d/conda.sh && conda activate loopy-slam" >> /root/.bashrc
-
-# Check Conda version
-RUN conda --version
 
 # Ensure that every new terminal will activate the conda environment
 ENTRYPOINT ["bash", "-l"]

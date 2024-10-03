@@ -23,20 +23,15 @@ docker exec -it loopy_exp1 bash
 ```
 - name of container is set in `run.sh`
 
-## 5. Install PyDBoW3 ??
+## 4. Download data
 ```bash
-cd /home/PyDBoW3
-pip install . 
+cd /home/Loopy-SLAM/scripts
+chmod +x DATASCRIPT
+docker exec -it loopy_exp1 bash
 ```
 
-## 6. Run the algorithm on data
+## 5. Run loopy-slam
 ```bash
-cd /home/Loopy_SLAM
-python run.py configs/TUM_RGBD/freiburg3_office.yaml
-```
-
-## 8. Run gs_icp_slam.py
-```bash
-cd /home/Loopy_SLAM
-python run.py configs/TUM_RGBD/freiburg3_office.yaml
+cd /home/Loopy-SLAM
+python run.py configs/TUM_RGBD/freiburg1_desk.yaml
 ```
