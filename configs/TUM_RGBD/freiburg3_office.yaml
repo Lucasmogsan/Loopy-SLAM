@@ -1,8 +1,8 @@
 inherit_from: configs/TUM_RGBD/tum.yaml
 config_path: configs/TUM_RGBD/freiburg3_office.yaml
 data:
-  input_folder: /home/datasets/TUM_RGBD/rgbd_dataset_freiburg3_long_office_household
-  output: /home/output/TUM_RGBD/freiburg3_long_office
+  input_folder: /home/dataset/TUM/rgbd_dataset_freiburg3_long_office_household
+  output: /home/output/TUM/freiburg3_long_office_household/LoopySLAM
 cam:  #intrinsic is different per scene in TUM, this cam does not have distortion
   H: 480 
   W: 640 

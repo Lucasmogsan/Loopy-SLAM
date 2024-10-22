@@ -3,5 +3,5 @@ config_path: configs/Replica/office0.yaml
 rendering:
   skip_zero_depth_pixel: True
 data:
-  input_folder: office0
-  output: /cluster/work/cvl/esandstroem/src/point_slam_loop/output/Replica/office0
+  input_folder: /home/dataset/Replica/office0
+  output: /home/output/Replica/office0/LoopySLAM

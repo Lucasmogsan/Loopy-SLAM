@@ -1,5 +1,5 @@
 dataset: 'replica'
-project_name: 'Point_SLAM_replica'
+project_name: 'Loopy_SLAM_replica'
 use_view_direction: False
 use_dynamic_radius: False
 pointcloud:

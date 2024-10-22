@@ -1,5 +1,5 @@
 inherit_from: configs/Replica/replica.yaml
 config_path: configs/Replica/room2.yaml
 data:
-  input_folder: room2
-  output: /cluster/work/cvl/esandstroem/src/point_slam_loop/output/Replica/room2
+  input_folder: /home/dataset/Replica/room2
+  output: /home/output/Replica/room2/LoopySLAM

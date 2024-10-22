@@ -1,8 +1,8 @@
 inherit_from: configs/TUM_RGBD/tum.yaml
 config_path: configs/TUM_RGBD/freiburg1_desk.yaml
 data:
-  input_folder: /home/datasets/TUM_RGBD/rgbd_dataset_freiburg1_desk
-  output: /home/output/TUM_RGBD/freiburg1_desk
+  input_folder: /home/dataset/TUM/rgbd_dataset_freiburg1_desk
+  output: /home/output/TUM/freiburg1_desk/LoopySLAM
 cam:  #intrinsic is different per scene in TUM
   H: 480 
   W: 640 
