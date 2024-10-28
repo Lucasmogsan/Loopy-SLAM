@@ -130,6 +130,8 @@ class Mapper(object):
         self.npc_geo_feats = None
         self.npc_col_feats = None
         self.end = False
+        
+        self.fps_mapping_list = []
 
     def set_pipe(self, pipe):
         self.pipe = pipe
@@ -956,9 +958,20 @@ class Mapper(object):
                 # start BA when having enough keyframes
                 self.BA = (len(self.keyframe_list) >
                            4) and cfg['mapping']['BA']
-
+                map_time_start = time.time()
+                print("Timer, mapping starts.")
                 _ = self.optimize_map(num_joint_iters, idx, gt_color, gt_depth, gt_c2w,
                                       self.keyframe_dict_global if self.keyframe_selection_method == "global" else self.keyframe_dict, self.keyframe_list_global if self.keyframe_selection_method == "global" else self.keyframe_list, cur_c2w, color_refine=color_refine, new_fragment=new_fragment)
+                map_time_end = time.time()
+                print("Timer, mapping stops.")
+                map_time_delta = map_time_end - map_time_start
+                print(f"Mapping time: {map_time_delta}")
+                fps = 1 / map_time_delta
+                self.fps_mapping_list.append(fps)
+                fps_avg = np.mean(self.fps_mapping_list)
+                print(f"Average FPS: {fps_avg}")
+                if self.wandb:
+                    wandb.log({'fps_mapping_avg': fps_avg})
                 if self.BA:
                     cur_c2w = _
                     self.estimate_c2w_list[idx] = cur_c2w
@@ -1147,7 +1160,7 @@ class Mapper(object):
                     gt_depth[gt_depth > 0] - cur_frame_depth[gt_depth > 0]).mean().item()
                 render_idx += cfg['mapping']['every_frame']
                 frame_cnt += 1
-                if render_idx % 400 == 0:
+                if render_idx % 50 == 0:
                     print(f'frame {render_idx}')
             else:
                 # _, gt_c, gt_d, gt_c2w_refine = self.frame_reader[self.n_img - 1]

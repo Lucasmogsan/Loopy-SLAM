@@ -243,6 +243,35 @@ def evaluate(poses_gt, poses_est, plot, scene, use_alignment=False):
 
     results = evaluate_ate(poses_gt, poses_est, plot, scene, use_alignment)
     print(results)
+    
+    # Save the estimated poses (trajectory) to a txt file with timestamp tx ty tz qx qy qz qw
+    # Save the estimated poses and ground truth poses to separate txt files
+    
+    scene_name = scene.split('.')[0].split('/')[-2] + '_' + scene.split('.')[0].split('/')[-1]
+    dataset = scene_name.split('_')[0]
+    
+    output_dir = f'/home/output/{dataset}/'
+    os.makedirs(output_dir, exist_ok=True)
+    
+    predicted_path = os.path.join(output_dir, f'Loopy_{scene_name}_predicted.txt')
+    gt_path = os.path.join(output_dir, f'Loopy_{scene_name}_gt.txt')
+    
+    # Save predicted poses
+    with open(predicted_path, 'w') as f_pred:
+        f_pred.write("timestamp tx ty tz qx qy qz qw\n")
+        for i in range(N):
+            est_pose = poses_est[i]
+            f_pred.write(f"{i} " + " ".join(map(str, est_pose)) + "\n")
+
+    
+    # Save ground truth poses
+    with open(gt_path, 'w') as f_gt:
+        f_gt.write("timestamp tx ty tz qx qy qz qw\n")
+        for i in range(N):
+            gt_pose = poses_gt[i]
+            f_gt.write(f"{i} " + " ".join(map(str, gt_pose)) + "\n")
+                
+                
     return results
 
 

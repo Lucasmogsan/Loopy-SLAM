@@ -2,7 +2,7 @@ verbose: True # will use tqdm
 low_gpu_mem: True # empty cuda cache after each optimization loop for tracker and mapper
 use_view_direction: False # if use viewing direction in color decoder, can't be enabled if use normals
 use_dynamic_radius: True # if to choose radius_add and radius_query dynamically based on color gradients
-wandb: False
+wandb: True
 wandb_folder : "/home/wandb/loopy-slam/output"
 project_name: "Loopy_SLAM_tum" # for wandb init
 setup_seed: 1219
@@ -126,7 +126,7 @@ rendering:
   sigmoid_coef_mapper: 0.1
   sample_near_pcl: True
   skip_zero_depth_pixel: False
-  eval_img: False
+  eval_img: True
 data:
   dim: 3
 meshing:

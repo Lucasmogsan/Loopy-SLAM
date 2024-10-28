@@ -88,6 +88,8 @@ class Tracker(object):
                                      renderer=self.renderer, verbose=self.verbose, device=self.device,
                                      vis_inside=cfg['tracking']['vis_inside'], total_iters=self.num_cam_iters)
         self.H, self.W, self.fx, self.fy, self.cx, self.cy = slam.H, slam.W, slam.fx, slam.fy, slam.cx, slam.cy
+        
+        self.fps_tracking_list = []
 
         if self.visual_odometry:
             BaseManager.register('VisualOdometer', VisualOdometer)
@@ -232,8 +234,10 @@ class Tracker(object):
             pbar = tqdm(self.frame_loader)
 
         for idx, gt_color, gt_depth, gt_c2w in pbar:
+            
             if not self.verbose:
                 pbar.set_description(f"Tracking Frame {idx[0]}")
+            
 
             idx = idx[0]
             gt_depth = gt_depth[0]
@@ -285,6 +289,9 @@ class Tracker(object):
                 print(Fore.MAGENTA)
                 print("Tracking Frame ",  idx)
                 print(Style.RESET_ALL)
+            
+            track_time_start = time.time()
+            print("Timer, tracking starts.")
 
             if idx <= 1 or self.gt_camera:
                 c2w = gt_c2w               # remove redundant DOFs
@@ -405,8 +412,23 @@ class Tracker(object):
                 c2w = get_camera_from_tensor(
                     candidate_cam_tensor.clone().detach())
                 c2w = torch.cat([c2w, bottom], dim=0)
+            
+
 
             self.estimate_c2w_list[idx] = c2w.clone().cpu()
+            print('idx:', idx, 'c2w:', c2w) # print the estimated camera pose
+            
+            track_time_end = time.time()
+            print("Timer, tracking stops.")
+            track_time_delta = track_time_end - track_time_start
+            print(f"Tracking time: {track_time_delta}")
+            fps = 1 / track_time_delta
+            if self.wandb and idx > 1:
+                self.fps_tracking_list.append(fps)
+                fps_avg = np.mean(self.fps_tracking_list)
+                print(f"Average FPS: {fps_avg}")
+                wandb.log({'fps_tracking_avg': fps_avg})
+            
             self.gt_c2w_list[idx] = gt_c2w.clone().cpu()
             pre_c2w = c2w.clone()
             if self.encode_exposure:
@@ -421,7 +443,8 @@ class Tracker(object):
                 torch.cuda.empty_cache()
 
             if self.cfg["stop"] and idx.item() != 0 and idx.item() % self.cfg["stop"] == 0:
-                return
-
+                return      
+            
+        
         if self.wandb and not self.gt_camera:
             wandb.finish()

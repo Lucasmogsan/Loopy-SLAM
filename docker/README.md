@@ -35,3 +35,11 @@ docker exec -it loopy_exp1 bash
 cd /home/Loopy-SLAM
 python run.py configs/TUM_RGBD/freiburg1_desk.yaml
 ```
+
+
+
+## Setup wandb
+```bash
+wandb login
+e42a86afe8f7a75d5db3c329ce16a9f0bd7f9830
+```

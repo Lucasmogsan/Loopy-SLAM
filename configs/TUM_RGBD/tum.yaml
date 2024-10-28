@@ -1,4 +1,4 @@
-dataset: 'tum'
+dataset: 'tumrgbd'
 project_name: 'Loopy_SLAM_tum'
 use_view_direction: False
 use_dynamic_radius: True

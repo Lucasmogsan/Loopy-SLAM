@@ -159,8 +159,9 @@ class Visualizer(object):
                 axs[1, 2].set_yticks([])
                 plt.subplots_adjust(wspace=0, hspace=0)
                 fig_name = f'{self.vis_dir}/{idx:05d}_{iter:04d}.jpg'
-                # plt.savefig(fig_name, dpi=300,
-                #             bbox_inches='tight',pad_inches=0.1)
+                print(f'Saving to {fig_name}')
+                plt.savefig(fig_name, dpi=300,
+                            bbox_inches='tight',pad_inches=0.1)
                 if 'mapping' in self.vis_dir and self.wandb:
                     wandb.log(
                         ({f'Mapping_{idx:05d}_{iter:04d}': wandb.Image(fig_name)}))

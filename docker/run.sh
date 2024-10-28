@@ -14,5 +14,7 @@ docker run -d -it --gpus all --privileged --network=host --shm-size=15G \
     -v $XSOCK:$XSOCK \
     -v $XAUTH:$XAUTH \
     -v ./..:/home/Loopy-SLAM \
+    -v ./../../thesis_utils/download_benchmark_data/dataset:/home/dataset \
+    -v ./../../thesis_utils/output_analysis/runs:/home/output \
     --name loopy_exp1 \
     loopy_slam_image
