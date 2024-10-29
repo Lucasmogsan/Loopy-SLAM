@@ -67,6 +67,8 @@ RUN source activate loopy-slam && \
 WORKDIR /home/Loopy-SLAM
 
 # Log in to wandb
+RUN apt-get update
+RUN pip install psutil wandb
 ENV WANDB_API_KEY=06fc375ce8e4c6e6a3ced49a30108bc17d4f8099
 RUN wandb login
 
