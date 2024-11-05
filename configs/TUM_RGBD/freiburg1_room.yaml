@@ -1,8 +1,8 @@
 inherit_from: configs/TUM_RGBD/tum.yaml
 config_path: configs/TUM_RGBD/freiburg1_room.yaml
 data:
-  input_folder: rgbd_dataset_freiburg1_room
-  output: /cluster/work/cvl/esandstroem/src/point_slam_loop/output/TUM_RGBD/freiburg1_room
+  input_folder: /home/dataset/TUM/rgbd_dataset_freiburg1_room
+  output: /home/output/TUM/freiburg1_room/LoopySLAM
 cam: 
   H: 480 
   W: 640 

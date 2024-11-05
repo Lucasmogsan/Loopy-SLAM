@@ -11,9 +11,10 @@ run_()
 
 run_tum()
 {
-    run_ "freiburg1_desk.yaml"
-    run_ "freiburg2_xyz.yaml"
-    run_ "freiburg3_office.yaml"
+    #run_ "freiburg1_desk.yaml"
+    run_ "freiburg1_room.yaml"
+    #run_ "freiburg2_xyz.yaml"
+    #run_ "freiburg3_office.yaml"
 }
 
 run_tum

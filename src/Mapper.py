@@ -1146,6 +1146,7 @@ class Mapper(object):
                 if self.wandb and self.eval_img:
                     mse_loss = torch.nn.functional.mse_loss(
                         gt_color[gt_depth > 0], cur_frame_color[gt_depth > 0])
+                    #mse_loss = torch.nn.functional.mse_loss(gt_color, cur_frame_color)  # for all pixels (including background)
                     psnr_frame = -10. * torch.log10(mse_loss)
                     ssim_value = ms_ssim(gt_color.transpose(0, 2).unsqueeze(0).float(), cur_frame_color.transpose(0, 2).unsqueeze(0).float(),
                                             data_range=1.0, size_average=True)
