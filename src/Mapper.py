@@ -26,7 +26,7 @@ from src.utils.Logger import Logger
 from skimage.color import rgb2gray
 from skimage import filters
 from scipy.interpolate import interp1d
-from pytorch_msssim import ms_ssim
+from pytorch_msssim import ssim as pt_ssim
 from typing import Literal, Optional
 
 import wandb
@@ -1148,7 +1148,7 @@ class Mapper(object):
                         gt_color[gt_depth > 0], cur_frame_color[gt_depth > 0])
                     #mse_loss = torch.nn.functional.mse_loss(gt_color, cur_frame_color)  # for all pixels (including background)
                     psnr_frame = -10. * torch.log10(mse_loss)
-                    ssim_value = ms_ssim(gt_color.transpose(0, 2).unsqueeze(0).float(), cur_frame_color.transpose(0, 2).unsqueeze(0).float(),
+                    ssim_value = pt_ssim(gt_color.transpose(0, 2).unsqueeze(0).float(), cur_frame_color.transpose(0, 2).unsqueeze(0).float(),
                                             data_range=1.0, size_average=True)
                     lpips_value = cal_lpips(torch.clamp(gt_color.unsqueeze(0).permute(0, 3, 1, 2).float(), 0.0, 1.0),
                                             torch.clamp(cur_frame_color.unsqueeze(0).permute(0, 3, 1, 2).float(), 0.0, 1.0)).item()
@@ -1187,7 +1187,7 @@ class Mapper(object):
                     avg_psnr = psnr_sum / frame_cnt
                     avg_ssim = ssim_sum / frame_cnt
                     avg_lpips = lpips_sum / frame_cnt
-                    wandb.log({'avg_ms_ssim': avg_ssim})
+                    wandb.log({'avg_ssim': avg_ssim})
                     wandb.log({'avg_psnr': avg_psnr})
                     wandb.log({'avg_lpips': avg_lpips})
                 print(f'depth_l1_render: {depth_l1_render/frame_cnt}')
